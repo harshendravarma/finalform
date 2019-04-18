@@ -1,0 +1,525 @@
+<?php
+$details=$_POST;
+if($_POST['samebillingadress']=="yes"){
+    $details['p_mailingaddress1']=$_POST['mailingaddress1'];
+    $details['p_mailingaddress2']=$_POST['mailingaddress2']; 
+    $details['p_state']=$_POST['state']; 
+    $details['p_city']=$_POST['city']; 
+    $details['p_pincode']=$_POST['pincode'];
+    $details['p_mobile']=$_POST['mobile']; 
+    $details['p_email']=$_POST['email'];   
+}
+
+class validation{
+    private $inputstring;
+    private $minlenght;
+    private $maxlenght;
+    private $alphabetsaccepted;
+    private $numberaccepted;
+    protected $error="";
+    private $stringlenght;
+    private $specialcharaccepted;
+
+    public function __construct($inputstring,$minlenght,$maxlenght,$numberaccepted,$alphabetsaccepted,$specialcharaccepted){
+        $this->inputstring=$inputstring;
+        $this->minlenght=$minlenght;
+        $this->maxlenght=$maxlenght;
+        $this->alphabetsaccepted=$alphabetsaccepted;
+        $this->numberaccepted=$numberaccepted;
+        $this->stringlenght=strlen(trim($this->inputstring));
+        $this->specialcharaccepted=$specialcharaccepted;
+    }
+    protected function validatemaxlenght(){
+        ($this->stringlenght>$this->maxlenght) ? $this->error="maximum lenght is".$this->maxlenght : "" ;
+    }
+    protected function validateminlenght(){
+        
+        ($this->stringlenght<$this->minlenght) ? $this->error="minimum lenght is".$this->minlenght : "" ;
+    }
+    protected function chechkalphabets(){
+        ($this->numberaccepted) ? "" : (preg_match('~[0-9]~',$this->inputstring )) ?  $this->error="wrong format numbers not accepted" :  "" ;
+    }
+    protected function chechknumbers(){
+        (!$this->alphabetsaccepted) ? (preg_match("/[a-z]/i",$this->inputstring )) ?  $this->error="wrong format alpabets not accepted" :  "" : "";
+    }
+    protected function checkspecialcharaters(){
+        (!$this->specialcharaccepted) ? (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/',$this->inputstring )) ?  $this->error="wrong format specialcharacters  not accepted" :  "" : "";
+    }
+    function validate(){
+        $this->validatemaxlenght();
+        echo $this->error;
+        $this->validateminlenght();
+        echo $this->error;
+        $this->chechkalphabets();
+        $this->chechknumbers();
+        $this->checkspecialcharaters();
+        return "*".$this->error;
+    }
+        
+       
+}
+// class Emailvalidator extends validation {
+//     public function __construct($email,$minlenght){
+//         $this->inputstring=$email;
+//         $this->minlenght=$minlenght;
+//     }
+//     //function overriiding
+//     function validate(){
+//         $this->validateminlenght();
+//         return "*".$this->error;
+//     }
+
+// }
+
+$object=new Emailvalidator("hiujjh",3);
+echo $object->validate();
+
+$firstnameerrorobject=new Validation($details['firstname'],1,15,false,true,false);
+$firstnameerror=$firstnameerrorobject->validate();
+$middlenameerrorobject=new Validation($details['middlename'],0,15,false,true,false);
+$middlenameerror=$middlenameerrorobject->validate();
+$lastnameerrorobject=new Validation($details['lastname'],1,15,false,true,false);
+$lastnameerror=$lastnameerrorobject->validate();
+$fathernameerrorobject=new Validation($details['fathername'],1,15,false,true,false);
+$fathernameerror=$fathernameerrorobject->validate();
+$adhaarnumbererrorobject=new Validation($details['adhaarnumber'],12,12,true,false,false);
+$adhaarnumbererror=$adhaarnumbererrorobject->validate();
+$pannumbererrorobject=new Validation($details['pannumber'],8,8,true,true,false);
+$pannumbererror=$pannumbererrorobject->validate();
+$mailingaddress1errorobject=new Validation($details['mailingaddress1'],1,50,true,true,true);
+$mailingaddress1error=$mailingaddress1errorobject->validate();
+$mailingaddress2errorobject=new Validation($details['mailingaddress2'],0,50,true,true,true);
+$mailingaddress2error=$mailingaddress2errorobject->validate();
+$stateerrorobject=new Validation($details['state'],1,15,false,true,false);
+$stateerror=$stateerrorobject->validate();
+$cityerrorobject=new Validation($details['city'],1,15,false,true,false);
+$cityerror=$cityerrorobject->validate();
+$pincodeerrorobject=new Validation($details['pincode'],6,6,true,false,false);
+$pincodeerror=$pincodeerrorobject->validate();
+$mobilenumbererrorobject=new Validation($details['mobile'],10,10,true,false,false);
+$mobilenumbererror=$mobilenumbererrorobject->validate();
+$p_mailingaddress1errorobject=new Validation($details['p_mailingaddress1'],1,50,true,true,true);
+$p_mailingaddress1error=$p_mailingaddress1errorobject->validate();
+$p_mailingaddress2errorobject=new Validation($details['p_mailingaddress2'],0,50,true,true,true);
+$p_mailingaddress2error=$p_mailingaddress2errorobject->validate();
+$p_stateerrorobject=new Validation($details['p_state'],1,15,false,true,false);
+$p_stateerror=$p_stateerrorobject->validate();
+$p_cityerrorobject=new Validation($details['p_city'],1,15,false,true,false);
+$p_cityerror=$p_cityerrorobject->validate();
+$p_pincodeerrorobject=new Validation($details['p_pincode'],6,6,true,false,false);
+$p_pincodeerror=$p_pincodeerrorobject->validate();
+$p_mobilenumbererrorobject=new Validation($details['p_mobile'],10,10,true,false,false);
+$p_mobilenumbererror=$p_mobilenumbererrorobject->validate();
+$nameoforganizationerrorobject=new Validation($details['nameoforganization'],1,100,true,true,true);
+$nameoforganizationerror=$nameoforganizationerrorobject->validate();
+$fullnameerrorobject=new Validation($details['fullname'],1,50,false,true,false);
+$fullnameerror=$fullnameerrorobject->validate();
+$percentageerrorobject=new Validation($details['percentage'],1,50,true,false,true);
+$percentageerror=$percentageerrorobject->validate();
+?>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>kellton</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body> 
+<div class="container">
+
+    <h2>Personal Information</h2>
+    <hr>
+
+    <form class="form-horizontal" role="form"  action="harshendrafinalform.php" method="POST">
+  <div class="row">
+    <div class="col-sm-4">
+    <div class="form-group">
+      <label for="FirstName">FirstName</label>
+      <span class = "rederror"><?php echo $firstnameerror;?></span>
+      <input type="text" id="FirstName" placeholder="FirstName" class="form-control" name="firstname"  required value="<?php echo $_POST[firstname]?>">
+    </div>
+  </div>
+
+    <div class="col-sm-4">
+    <div class="form-group">
+      <label for="MiddleName">MiddleName</label>
+      <span class = "rederror"><?php echo $middlenameerror;?></span>
+      <input type="text" id="MiddleName" placeholder="MiddleName" class="form-control" name="middlename"  required value="<?php echo $_POST[middlename]?>">
+    </div>
+  </div>
+
+    <div class="col-sm-4">
+    <div class="form-group">
+      <label for="LastName">LastName</label>
+      <span class = "rederror"><?php echo $lastnameerror;?></span>
+      <input type="text" id="LastName" placeholder="LastName" class="form-control" name="lastname"  required value="<?php echo $_POST[lastname]?>">
+    </div>
+  </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-sm-4">
+    <div class="form-group">
+        <label for="maritalstatus" >MaritalStatus</label>
+        <select name="maritalstatus" class="form-control dropdown">
+        <option value="married">married</option>
+        <option value="unmarried" <?=$_POST['maritalstatus'] == 'unmarried' ? ' selected="selected"' : '';?>>un marrired</option>
+    </select>
+    </div>
+    </div>
+
+    <div class="col-sm-4">
+    <div class="form-group">
+      <label for="FatherName">Father/HusbandsName</label>
+      <span class = "rederror"><?php echo $fathernameerror;?></span>
+      <input type="text" id="FatherName" placeholder="Fathe/HusbandsName" class="form-control" name="fathername"  required value="<?php echo $_POST[fathername]?>">
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="form-group">
+        <label for="ResidentalStatus" >ResidentalStatus</label>
+        <select name="ResidentalStatus" class="form-control dropdown">
+        <option value="indian">indian</option>
+        <option value="nri" <?=$_POST['ResidentalStatus'] == 'nri' ? ' selected="selected"' : '';?>>non-ResidentialIndian</option>
+    </select>
+    </div>
+    </div>
+
+   
+
+  </div>
+
+  <div class="row">
+
+
+<div class="col-sm-4">
+<div class="form-group">
+  <label for="pannumber">PANnumber</label>
+  <span class = "rederror"><?php echo $pannumbererror;?></span>
+  <input type="text" id="pannumber" placeholder="pannumber" class="form-control" name="pannumber"  required value="<?php echo $_POST[pannumber]?>">
+</div>
+</div>
+
+<div class="col-sm-4">
+<div class="form-group">
+    <label for="taxresidentofindia" >TaxResidentOfIndia</label>
+    <select name="taxresidentofindia" class="form-control dropdown">
+    <option value="yes">YES</option>
+    <option value="no" <?=$_POST['taxresidentofindia'] == 'no' ? ' selected="selected"' : '';?>>NO</option>
+</select>
+</div>
+</div>
+
+<div class="col-sm-4">
+<div class="form-group">
+  <label for="adhaarnumber">Adhaarnumber</label>
+  <span class = "rederror"><?php echo $adhaarnumbererror;?></span>
+  <input type="text" id="adhaarnumber" placeholder="adhaarnumber" class="form-control" name="adhaarnumber"  required value="<?php echo $_POST[adhaarnumber]?>">
+</div>
+</div>
+
+
+</div>
+
+<h2>Contact Information</h2>
+<small class="form-text text-muted">Please mention adress as per adrres proof</small>
+<hr>
+<div class="row">
+
+<div class="col-sm-4">
+<div class="form-group">
+  <label for="mailingaddress1">MailingAdress1</label>
+  <span class = "rederror"><?php echo $mailingaddress1error;?></span>
+  <input type="text" id="mailingaddress1" placeholder="MailingAdress1" class="form-control" name="mailingaddress1"  required value="<?php echo $_POST[mailingaddress1]?>">
+</div>
+</div>
+
+<div class="col-sm-4">
+<div class="form-group">
+  <label for="mailingaddress2">MailingAdress2</label>
+  <span class = "rederror"><?php echo $mailingaddress2error;?></span>
+  <input type="text" id="mailingaddress2" placeholder="MailingAdress2" class="form-control" name="mailingaddress2"  required value="<?php echo $_POST[mailingaddress2]?>">
+</div>
+</div>
+
+<div class="col-sm-4">
+<div class="form-group">
+  <label for="state">state</label>
+  <span class = "rederror"><?php echo $stateerror;?></span>
+  <input type="text" id="state" placeholder="state" class="form-control" name="state"  required value="<?php echo $_POST[state]?>">
+</div>
+</div>
+
+<div class="col-sm-4">
+<div class="form-group">
+  <label for="city">city</label>
+  <span class = "rederror"><?php echo $cityerror;?></span>
+  <input type="text" id="city" placeholder="city" class="form-control" name="city"  required value="<?php echo $_POST[city]?>">
+</div>
+</div>
+
+<div class="col-sm-4">
+<div class="form-group">
+  <label for="pincode">PinCode</label>
+  <span class = "rederror"><?php echo $pincodeerror;?></span>
+  <input type="text" id="pincode" placeholder="pincode" class="form-control" name="pincode"  required value="<?php echo $_POST[pincode]?>">
+</div>
+</div>
+
+<div class="col-sm-4">
+<div class="form-group">
+  <label for="mobile">Mobile</label>
+  <span class = "rederror"><?php echo $mobilenumbererror;?></span>
+  <input type="text" id="mobile" placeholder="mobilenumber" class="form-control" name="mobile"  required value="<?php echo $_POST[mobile]?>">
+</div>
+</div>
+
+<div class="col-sm-4">
+<div class="form-group">
+  <label for="email">email</label>
+  <span class = "rederror"><?php echo $emailerror;?></span>
+  <input type="text" id="email" placeholder="email" class="form-control" name="email"  required value="<?php echo $_POST[email]?>">
+</div>
+</div>
+</div>
+
+<div class="row">
+<div class="col-sm-4">
+<div class="form-group">
+    <label >Is Your permanent same as billing address  </label>
+    <input type="radio" name="samebillingadress" id="yesbutton" value="yes" onclick="showpermanentaddress()" <?php echo ($_POST['samebillingadress'] == 'yes' ? ' checked="checked"' : '');?>>yes
+    <input type="radio" name="samebillingadress" id="nobutton" value="no"  onclick="showpermanentaddress()"<?php echo ($_POST['samebillingadress'] == 'no' ? ' checked="checked"' : '');?>>no
+</div>
+</div>
+</div> 
+ 
+
+<div id="showpermanentaddress">
+
+<h2>Permanent Address</h2>
+
+<hr>
+<div class="row">
+
+<div class="col-sm-4">
+<div class="form-group">
+  <label for="p_mailingaddress1">MailingAdress1</label>
+  <span class = "rederror"><?php echo $p_mailingaddress1error;?></span>
+  <input type="text" id="p_mailingaddress1" placeholder="MailingAdress1" class="form-control" name="p_mailingaddress1"  required value="<?php echo $_POST[p_mailingaddress1]?>">
+</div>
+</div>
+
+<div class="col-sm-4">
+<div class="form-group">
+  <label for="p_mailingaddress2">MailingAdress2</label>
+  <span class = "rederror"><?php echo $p_mailingaddress2error;?></span>
+  <input type="text" id="p_mailingaddress2" placeholder="MailingAdress2" class="form-control" name="p_mailingaddress2"  required  value="<?php echo $_POST[p_mailingaddress2]?>">
+</div>
+</div>
+
+<div class="col-sm-4">
+<div class="form-group">
+  <label for="p_state">state</label>
+  <span class = "rederror"><?php echo $p_stateerror;?></span>
+  <input type="text" id="p_state" placeholder="state" class="form-control" name="p_state"  required value="<?php echo $_POST[p_state]?>">
+</div>
+</div>
+
+<div class="col-sm-4">
+<div class="form-group">
+  <label for="p_city">city</label>
+  <span class = "rederror"><?php echo $p_cityerror;?></span>
+  <input type="text" id="p_city" placeholder="city" class="form-control" name="p_city"  required value="<?php echo $_POST[p_city]?>">
+</div>
+</div>
+
+<div class="col-sm-4">
+<div class="form-group">
+  <label for="p_pincode">PinCode</label>
+  <span class = "rederror"><?php echo $p_pincodeerror;?></span>
+  <input type="text" id="p_pincode" placeholder="pincode" class="form-control" name="p_pincode"  required value="<?php  echo $_POST[p_pincode]?>">
+</div>
+</div>
+
+<div class="col-sm-4">
+<div class="form-group">
+  <label for="p_mobile">Mobile</label>
+  <span class = "rederror"><?php echo $p_mobilenumbererror;?></span>
+  <input type="text" id="p_mobile" placeholder="mobilenumber" class="form-control" name="p_mobile"  required value="<?php  echo $_POST[p_mobile]?>">
+</div>
+</div>
+
+<div class="col-sm-4">
+<div class="form-group">
+  <label for="p_email">email</label>
+  <span class = "rederror"><?php echo $p_emailerror;?></span>
+  <input type="text" id="p_email" placeholder="email" class="form-control" name="p_email"  required value="<?php echo $_POST[p_email]?>">
+</div>
+</div>
+</div>
+
+</div>    
+
+
+<h2>Education and Work</h2>
+<hr>
+
+<div class="row">
+
+
+<div class="col-sm-4">
+<div class="form-group">
+    <label for="educationalqualification" >EducationalQualification</label>
+    <select name="educationalqualification" class="form-control dropdown">
+    <option value="postgraduate" <?=$_POST['educationalqualification'] == 'postgraduate' ? ' selected="selected"' : '';?>>postgraduate</option>
+    <option value="undergraduate" <?=$_POST['educationalqualification'] == 'undergraduate' ? ' selected="selected"' : '';?>>undergraduate</option>
+    <option value="tenthpass" <?=$_POST['educationalqualification'] == 'tenthpass' ? ' selected="selected"' : '';?>>10thpass</option>
+</select>
+</div>
+</div>
+
+<div class="col-sm-4">
+<div class="form-group">
+    <label for="occupation" >OccupationandEmploementdetails</label>
+    <select name="occupation" class="form-control dropdown">
+    <option value="employee">Employee</option>
+    <option value="bussinessman" <?=$_POST['occupation'] == 'bussinessman' ? ' selected="selected"' : '';?>>Bussinessman</option>
+    <option value="agriculture" <?=$_POST['occupation'] == 'agriculture' ? ' selected="selected"' : '';?>>Agriculture</option>
+</select>
+</div>
+
+</div>
+
+<div class="col-sm-4">
+<div class="form-group">
+    <label for="natureofduties" >NatureofDuties</label>
+    <select name="natureofduties" class="form-control dropdown">
+    <option value="bussinesprocessanalyst">Business Process Analyst</option>
+    <option value="logisticsofficer" <?=$_POST['natureofduties'] == 'logisticsofficer' ? ' selected="selected"' : '';?>>Logistics Officer</option>
+    <option value="costsheduleanalyst"<?=$_POST['natureofduties'] == 'costsheduleanalyst' ? ' selected="selected"' : '';?>>Cost Schedule Analyst</option>
+    <option value="materialcoordinator"<?=$_POST['natureofduties'] == 'materialcoordinator' ? ' selected="selected"' : '';?>>Material Coordinator</option>
+</select>
+</div>
+</div>
+
+<div class="col-sm-4">
+<div class="form-group">
+  <label for="nameoforganization">NameofOrganization</label>
+  <span class = "rederror"><?php echo $nameoforganizationerror;?></span>
+  <input type="text" id="nameoforganization" placeholder="NatureofOrganization" class="form-control" name="nameoforganization"  required value="<?php echo $_POST[nameoforganization]?>">
+</div>
+</div>
+
+</div> 
+
+<div class="row">
+<div class="col-sm-4">
+<div class="form-group">
+    <label >Are you a politically exposed person  </label>
+    <input type="radio" name="politicalperson"  value="yes" <?php echo ($_POST['politicalperson'] == 'yes' ? ' checked="checked"' : '');?> >yes
+    <input type="radio" name="politicalperson"  value="no"<?php echo ($_POST['politicalperson'] == 'no' ? ' checked="checked"' : '');?> >no
+</div>
+
+</div>
+</div> 
+
+<h2>Nominee Information</h2>
+<hr>
+<div class="row">
+<div class="col-sm-4">
+    <div class="form-group">
+        <label for="title" >Title</label>
+        <select name="title" class="form-control dropdown">
+        <option value="mr" <?=$_POST['title'] == 'mr' ? ' selected="selected"' : '';?>>Mr</option>
+        <option value="mrs" <?=$_POST['title'] == 'mrs' ? ' selected="selected"' : '';?>>Mrs</option>
+        <option value="others"<?=$_POST['title'] == 'others' ? ' selected="selected"' : '';?>>Others</option>
+    </select>
+    </div>
+    </div>
+
+
+<div class="col-sm-4">
+<div class="form-group">
+  <label for="fullname">FullName</label>
+  <span class = "rederror"><?php echo $fullnameerror;?></span>
+  <input type="text" id="fullname" placeholder="FullName" class="form-control" name="fullname"  required value="<?php echo $_POST[fullname]?>">
+</div>
+</div>
+
+<div class="col-sm-4">
+    <div class="form-group">
+        <label for="relationshiptolifeassured" >Relationship To Life Assured</label>
+        <select name="relationshiptolifeassured" class="form-control dropdown">
+        <option value="assured" <?=$_POST['relationshiptolifeassured'] == 'assured' ? ' selected="selected"' : '';?>>Assured</option>
+        <option value="notassured" <?=$_POST['relationshiptolifeassured'] == 'notassured' ? ' selected="selected"' : '';?>>NotAssured</option>
+    </select>
+    </div>
+    </div>
+
+<div class="col-sm-4">
+    <div class="form-group">
+        <label for="birthdate">DateofBirth</label>
+        <input type="date" id="birthDate" class="form-control" name="birthdate" value="<?php echo $_POST[birthdate]?>">
+    </div>
+</div>
+
+<div class="col-sm-4">
+<div class="form-group">
+  <label for="percentage">PercentageEntitled%</label>
+  <span class = "rederror"><?php echo $percentageerror;?></span>
+  <input type="text" id="percentage" placeholder="PercentageEntitled" class="form-control" name="percentage"  required value="<?php echo $_POST[percentage]?>">
+</div>
+</div>
+
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+<button type="submit" class="btn btn-primary btn-lg btn-block">SUBMIT</button>
+</div>
+</form>
+</div>
+</div>
+
+</body>
+<script>
+      function showpermanentaddress() {
+    if (document.getElementById('nobutton').checked) {
+        document.getElementById('showpermanentaddress').style.display = "block";
+    }
+    else{
+        document.getElementById('showpermanentaddress').style.display = "none";
+    }
+    
+
+}
+</script>
+
+<style>
+    button{
+        margin: 100px 0px 120px 0px;
+        
+
+    }
+    body{
+        margin: 0px 0px 120px 0px;
+    }
+   #showpermanentaddress{
+    display: none;
+   }
+   .rederror{
+    color: #FF0000;
+   }
+
+</style>
+</html>
+
